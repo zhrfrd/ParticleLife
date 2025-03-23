@@ -5,15 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class Controls extends JPanel {
-    ParticlePanel particlePanel;
+    SimulationPanel simulationPanel;
+    Simulation simulation;
     public JButton resetButton = new JButton();
     public JButton randomResetButton = new JButton();
     public JButton randomRulesButton = new JButton();
     public JLabel totalParticlesLabel = new JLabel();
     public JLabel totalRulesLabel = new JLabel();
 
-    Controls(ParticlePanel particlePanel) {
-        this.particlePanel = particlePanel;
+    Controls(Simulation simulation) {
+        this.simulation = simulation;
         this.setLayout(new GridLayout(12,2));
         this.setPreferredSize(new Dimension(200,600));
         this.setVisible(true);
@@ -71,36 +72,36 @@ public class Controls extends JPanel {
     }
 
     public void resetSimulation(){
-        particlePanel.timer.stop();
-        particlePanel.particles.clear();
-        particlePanel.red.clear();
-        particlePanel.green.clear();
-        particlePanel.blue.clear();
-        particlePanel.yellow.clear();
-        particlePanel.magenta.clear();
-        particlePanel.createParticles();
-        particlePanel.timer.start();
-        particlePanel.randomRules();
+        simulation.timer.stop();
+        simulation.particles.clear();
+        simulation.red.clear();
+        simulation.green.clear();
+        simulation.blue.clear();
+        simulation.yellow.clear();
+        simulation.magenta.clear();
+        simulation.createParticles();
+        simulation.timer.start();
+        simulation.randomRules();
     }
 
     public void resetRandom(){
-        particlePanel.timer.stop();
-        particlePanel.particles.clear();
-        particlePanel.red.clear();
-        particlePanel.green.clear();
-        particlePanel.blue.clear();
-        particlePanel.yellow.clear();
-        particlePanel.magenta.clear();
-        particlePanel.createRandomParticles();
-        particlePanel.timer.start();
-        particlePanel.randomRules();
+        simulation.timer.stop();
+        simulation.particles.clear();
+        simulation.red.clear();
+        simulation.green.clear();
+        simulation.blue.clear();
+        simulation.yellow.clear();
+        simulation.magenta.clear();
+        simulation.createRandomParticles();
+        simulation.timer.start();
+        simulation.randomRules();
     }
 
     public void start(){
-        particlePanel.timer.start();
+        simulation.timer.start();
     }
 
     public void stop(){
-        particlePanel.timer.stop();
+        simulation.timer.stop();
     }
 }

@@ -4,16 +4,17 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Utils {
-    ParticlePanel particlePanel;
-    Utils(ParticlePanel particlePanel) {
-        this.particlePanel = particlePanel;
+    SimulationPanel simulationPanel;
+
+    Utils(SimulationPanel simulationPanel) {
+        this.simulationPanel = simulationPanel;
     }
 
-    public int random(ParticlePanel particlePanel){
-        return particlePanel.random.nextInt(100) * 6;
+    public int random(Simulation simulation){
+        return simulation.random.nextInt(100) * 6;
     }
 
-    public double randomDouble(ParticlePanel particlePanel) {
+    public double randomDouble(Simulation simulation) {
         double d;
         double upper = 0.3;
         double lower = - 0.3;
@@ -33,8 +34,8 @@ public class Utils {
         return null;
     }
 
-    public char randomColor(ParticlePanel particlePanel) {
-        int ran = particlePanel.random.nextInt(5);
+    public char randomColor(Simulation simulation) {
+        int ran = simulation.random.nextInt(5);
         if (ran==0) {return 'g';}
         if (ran==1) {return 'r';}
         if (ran==2) {return 'b';}
@@ -43,12 +44,12 @@ public class Utils {
         return 'c';
     }
 
-    public ArrayList<Particle> randomGroupOfParticles(ParticlePanel particlePanel) {
-        int ran = particlePanel.random.nextInt(5);
-        if (ran==0) {return particlePanel.green;}
-        if (ran==1) {return particlePanel.red;}
-        if (ran==2) {return particlePanel.blue;}
-        if (ran==3) {return particlePanel.yellow;}
-        return particlePanel.magenta;
+    public ArrayList<Particle> randomGroupOfParticles(Simulation simulation) {
+        int ran = simulation.random.nextInt(5);
+        if (ran==0) {return simulation.green;}
+        if (ran==1) {return simulation.red;}
+        if (ran==2) {return simulation.blue;}
+        if (ran==3) {return simulation.yellow;}
+        return simulation.magenta;
     }
 }

@@ -3,12 +3,12 @@ package zhrfrd.particlelife;
 import javax.swing.*;
 import java.awt.*;
 
-public class ParticleFrame extends JFrame {
+public class SimulationFrame extends JFrame {
     private static final int WIDTH = 810;
     private static final int HEIGHT = 610;
     private static final int PANEL_SIZE = 600;
 
-    public ParticleFrame() {
+    public SimulationFrame() {
         setupFrame();
         initializeComponents();
     }
@@ -21,11 +21,11 @@ public class ParticleFrame extends JFrame {
     }
 
     private void initializeComponents() {
-        ParticlePanel particlePanel = new ParticlePanel();
-        particlePanel.setPreferredSize(new Dimension(PANEL_SIZE, PANEL_SIZE));
-        particlePanel.setVisible(true);
-        this.add(particlePanel, BorderLayout.WEST);
-        Controls controls = particlePanel.controls;
+        SimulationPanel simulationPanel = new SimulationPanel();
+        simulationPanel.setPreferredSize(new Dimension(PANEL_SIZE, PANEL_SIZE));
+        simulationPanel.setVisible(true);
+        this.add(simulationPanel, BorderLayout.WEST);
+        Controls controls = simulationPanel.controls;
         this.add(controls, BorderLayout.EAST);
         this.pack();
         this.setVisible(true);
