@@ -5,17 +5,17 @@ public class Particle {
     double y;
     double vx;
     double vy;
-    char c;
+    char color;
 
-    Particle(int x, int y, char c) {
+    Particle(int x, int y, char color) {
         this.x = x;
         this.y = y;
-        this.c = c;
+        this.color = color;
         this.vx = 0;
         this.vy = 0;
     }
 
-    public Particle getAtom() {
+    public Particle getParticle() {
         return this;
     }
 
@@ -35,7 +35,7 @@ public class Particle {
         return vy;
     }
 
-    public char getC() {
-        return c;
+    public char getColor() {
+        return color;
     }
 }

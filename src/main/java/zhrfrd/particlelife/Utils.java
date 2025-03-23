@@ -10,13 +10,12 @@ public class Utils {
     }
 
     public int random(ParticlePanel particlePanel){
-        //used for placement of new atoms
         return particlePanel.random.nextInt(100) * 6;
     }
 
-    public double randomDouble(ParticlePanel particlePanel) {/// believe we're only getting postive
+    public double randomDouble(ParticlePanel particlePanel) {
         double d;
-        double upper = .3;
+        double upper = 0.3;
         double lower = - 0.3;
         d = Math.random() * (upper-lower) + lower;
 

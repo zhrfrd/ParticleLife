@@ -12,7 +12,6 @@ public class ParticlePanel extends JPanel implements ActionListener {
     int SCREEN_HEIGHT = 600;
     int DELAY = 60;
     Random random = new Random();
-    //simulation variables
     int rulesLimit = 20;
     Controls controls = new Controls(this);
     Utils utils = new Utils(this);
@@ -40,15 +39,16 @@ public class ParticlePanel extends JPanel implements ActionListener {
         blue = generateParticles(300, 'b');
         magenta = generateParticles(300, 'm');
     }
-    public ArrayList<Particle> generateParticles(int number, char color) {
-        // Create particles and pack into ArrayList(s)
-        ArrayList<Particle> particleGroup = new ArrayList<>(); //used to pass atoms to individual color array(s), reference for ALL atoms packed into 'atoms' array
-        for (int i = 0; i < number; i ++) { //with separate arrays for each color we can run interactions on each, then paint all atoms using 'atoms'
+    public ArrayList<Particle> generateParticles(int numberOfParticles, char color) {
+        ArrayList<Particle> particlesGroup = new ArrayList<>();
+
+        for (int i = 0; i < numberOfParticles; i ++) {
             Particle particle = new Particle(utils.random(this), utils.random(this), color);
-            particleGroup.add(i, particle);
-            particles.add(particleGroup.get(i));
+            particlesGroup.add(i, particle);
+            particles.add(particlesGroup.get(i));
         }
-        return particleGroup;
+
+        return particlesGroup;
     }
     public void createRandomParticles(){
         yellow = generateParticles(random.nextInt(500), utils.randomColor(this));
@@ -94,12 +94,10 @@ public class ParticlePanel extends JPanel implements ActionListener {
         for (Particle particle1 : particles1) {
             double fx = 0;
             double fy = 0;
-            Particle a = particle1;
+
             for (Particle particle2 : particles2) {
-                a = particle2;
-                Particle b = particle2;
-                double dx = a.x - b.x;
-                double dy = a.y - b.y;
+                double dx = particle1.x - particle2.x;
+                double dy = particle1.y - particle2.y;
                 double d = Math.sqrt(dx * dx + dy * dy);
                 if (d > 0 && d < 80) {
                     double F = (g * 1) / d;
@@ -107,23 +105,23 @@ public class ParticlePanel extends JPanel implements ActionListener {
                     fy += F * dy;
                 }
             }
-            a.vx = ((a.vx + fx) * 0.5);
-            a.vy = ((a.vy + fy) * 0.5);
-            a.x += a.vx;
-            a.y += a.vy;
-            if (a.x <= 0 || a.x >= SCREEN_WIDTH) {
-                a.vx *= -1;
+            particle1.vx = ((particle1.vx + fx) * 0.5);
+            particle1.vy = ((particle1.vy + fy) * 0.5);
+            particle1.x += particle1.vx;
+            particle1.y += particle1.vy;
+            if (particle1.x <= 0 || particle1.x >= SCREEN_WIDTH) {
+                particle1.vx *= -1;
             }
-            if (a.y <= 0 || a.y >= SCREEN_HEIGHT) {
-                a.vy *= -1;
+            if (particle1.y <= 0 || particle1.y >= SCREEN_HEIGHT) {
+                particle1.vy *= -1;
             }
         }
     }
 
     public void draw(Graphics graphics) {
         for (Particle particle : particles) {
-            graphics.setColor(utils.getColor(particle.getC()));
-            graphics.fillOval(Math.abs((int) particle.x), Math.abs((int) particle.y), 5, 5);// cast x/y from double to int to draw atoms. Definitely not ideal casting double to int
+            graphics.setColor(utils.getColor(particle.getColor()));
+            graphics.fillOval(Math.abs((int) particle.x), Math.abs((int) particle.y), 5, 5);   // Cast x/y from double to int to draw atoms. Definitely not ideal casting double to int
         }
     }
 
