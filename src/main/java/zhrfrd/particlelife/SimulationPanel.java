@@ -8,21 +8,39 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class SimulationPanel extends JPanel implements ActionListener {
-    int SCREEN_WIDTH = 600;
-    int SCREEN_HEIGHT = 600;
+    int PANEL_SIZE = 600;
     int DELAY = 60;
     Random random = new Random();
-    Controls controls;// = new Controls(this);
+    ControlsPanel controlsPanel;
     Utils utils = new Utils(this);
     ArrayList<Particle> particles = new ArrayList<>();
     ArrayList<Rule> rules = new ArrayList<>(12);
     Simulation simulation;
 
+    /**
+     * JPanel containing the actual simulation.
+     */
     SimulationPanel() {
-        this.setBounds(0,0,600,600);
-        simulation = new Simulation(this);
-        controls = new Controls(simulation);
-        controls.makeGUI(this);
+//        simulation = new Simulation(this);
+//        controlsPanel = simulation.controlsPanel;
+//        controlsPanel = new ControlsPanel(simulation);
+//        controlsPanel.makeGUI(this);
+//        simulation.startControls();
+//        particles = simulation.particles;
+//        controlsPanel = new ControlsPanel(simulation);
+//        controlsPanel.makeGUI(this);
+    }
+
+    public void setSimulation(Simulation simulation) {
+        this.simulation = simulation;
+    }
+
+    public void setControlsPanel(ControlsPanel controlsPanel) {
+        this.controlsPanel = controlsPanel;
+    }
+
+    public void setParticles() {
+        particles = simulation.getParticles();
     }
 
     public void draw(Graphics graphics) {
@@ -43,15 +61,15 @@ public class SimulationPanel extends JPanel implements ActionListener {
         repaint();
         simulation.updateInteraction();
 
-        if (actionEvent.getSource() == controls.resetButton) {
-            controls.resetSimulation();
+        if (actionEvent.getSource() == controlsPanel.resetButton) {
+            controlsPanel.resetSimulation();
         }
 
-        if (actionEvent.getSource() == controls.randomResetButton) {
-            controls.resetRandom();
+        if (actionEvent.getSource() == controlsPanel.randomResetButton) {
+            controlsPanel.resetRandom();
         }
 
-        if (actionEvent.getSource() == controls.randomRulesButton) {
+        if (actionEvent.getSource() == controlsPanel.randomRulesButton) {
             simulation.randomRules();
         }
     }

@@ -16,20 +16,28 @@ public class Simulation {
     int DELAY = 60;
     Random random = new Random();
     int rulesLimit = 20;
-    Controls controls;// = new Controls(this);
+    ControlsPanel controlsPanel;// = new ControlsPanel(this);
     Utils utils;// = new Utils(this);
     Timer timer;// = new Timer(DELAY, this);   // Start timer which activates action listener on DELAY interval
     ArrayList<Particle> particles = new ArrayList<>();
     ArrayList<Rule> rules = new ArrayList<>(12);
 
-    public Simulation(SimulationPanel simulationPanel) {
+    public Simulation(SimulationPanel simulationPanel, ControlsPanel controlsPanel) {
         this.simulationPanel = simulationPanel;
-        controls = new Controls(this);
+        this.controlsPanel = controlsPanel;
         utils = new Utils(this.simulationPanel);
         timer = new Timer(DELAY, simulationPanel);
         createRandomParticles();
         randomRules();
-        controls.start();   // Start timer
+//        controlsPanel.start();   // Start timer
+    }
+
+    public void begin() {
+        timer.start();
+    }
+
+    public void startControls() {
+        controlsPanel.start();   // Start timer
     }
 
     public void createParticles(){
@@ -65,8 +73,8 @@ public class Simulation {
         for (Rule rule : rules) {
             interactionRule(rule);
         }
-        controls.totalParticlesLabel.setText(String.valueOf(particles.size()));
-        controls.totalRulesLabel.setText(String.valueOf(rules.size()));
+        controlsPanel.totalParticlesLabel.setText(String.valueOf(particles.size()));
+        controlsPanel.totalRulesLabel.setText(String.valueOf(rules.size()));
     }
 
     public void randomRules(){
@@ -85,7 +93,11 @@ public class Simulation {
             randomRules();
         }
 
-        controls.totalRulesLabel.setText(String.valueOf(numRule));
+//        controlsPanel.totalRulesLabel.setText(String.valueOf(numRule));
+    }
+
+    public ArrayList<Particle> getParticles() {
+        return particles;
     }
 
     public void interactionRule(Rule rule) {

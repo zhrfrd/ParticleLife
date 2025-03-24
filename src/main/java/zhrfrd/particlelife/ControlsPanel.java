@@ -2,9 +2,10 @@ package zhrfrd.particlelife;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Controls extends JPanel {
+public class ControlsPanel extends JPanel implements ActionListener {
     SimulationPanel simulationPanel;
     Simulation simulation;
     public JButton resetButton = new JButton();
@@ -13,11 +14,22 @@ public class Controls extends JPanel {
     public JLabel totalParticlesLabel = new JLabel();
     public JLabel totalRulesLabel = new JLabel();
 
-    Controls(Simulation simulation) {
-        this.simulation = simulation;
-        this.setLayout(new GridLayout(12,2));
-        this.setPreferredSize(new Dimension(200,600));
-        this.setVisible(true);
+//    ControlsPanel(Simulation simulation) {
+//        this.simulation = simulation;
+//        this.setLayout(new GridLayout(12,2));
+//        this.setPreferredSize(new Dimension(200,600));
+//        this.setVisible(true);
+//    }
+
+    /**
+     * JPanel containing controls such as buttons and labels.
+     */
+    ControlsPanel() {
+        setLayout(new GridLayout(12,2));
+        setPreferredSize(new Dimension(200,600));
+        setVisible(true);
+
+        makeGUI(this);
     }
 
     public void makeGUI(ActionListener actionListener) {
@@ -44,6 +56,7 @@ public class Controls extends JPanel {
 
         // Number of particles
         JPanel particlesPanel = new JPanel();
+        particlesPanel.setBackground(Color.yellow);
         particlesPanel.setLayout(new BorderLayout());
         JLabel particlesName = new JLabel();
         particlesPanel.setPreferredSize(new Dimension(160,20));
@@ -58,6 +71,7 @@ public class Controls extends JPanel {
 
         // Number of rules
         JPanel rulesPanel = new JPanel();
+        rulesPanel.setBackground(Color.orange);
         rulesPanel.setLayout(new BorderLayout());
         JLabel rulesName = new JLabel();
         rulesPanel.setPreferredSize(new Dimension(160,20));
@@ -69,6 +83,10 @@ public class Controls extends JPanel {
         rulesPanel.add(rulesName, BorderLayout.WEST);
         rulesPanel.add(totalRulesLabel, BorderLayout.EAST);
         this.add(rulesPanel);
+    }
+
+    public void setSimulation(Simulation simulation) {
+        this.simulation = simulation;
     }
 
     public void resetSimulation(){
@@ -103,5 +121,36 @@ public class Controls extends JPanel {
 
     public void stop(){
         simulation.timer.stop();
+    }
+
+//    public void draw(Graphics graphics) {
+//        for (Particle particle : particles) {
+//            graphics.setColor(utils.getColor(particle.getColor()));
+//            graphics.fillOval(Math.abs((int) particle.x), Math.abs((int) particle.y), 5, 5);   // Cast x/y from double to int to draw atoms. Definitely not ideal casting double to int
+//        }
+//    }
+//
+//    @Override
+//    public void paintComponent(Graphics g) {
+//        super.paintComponent(g);
+//        draw(g);
+//    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        repaint();
+        simulation.updateInteraction();
+
+        if (actionEvent.getSource() == resetButton) {
+            resetSimulation();
+        }
+
+        if (actionEvent.getSource() == randomResetButton) {
+            resetRandom();
+        }
+
+        if (actionEvent.getSource() == randomRulesButton) {
+            simulation.randomRules();
+        }
     }
 }
