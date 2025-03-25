@@ -26,18 +26,14 @@ public class Simulation {
         this.simulationPanel = simulationPanel;
         this.controlsPanel = controlsPanel;
         utils = new Utils(this.simulationPanel);
-        timer = new Timer(DELAY, simulationPanel);
+//        timer = new Timer(DELAY, controlsPanel);
         createRandomParticles();
         randomRules();
-//        controlsPanel.start();   // Start timer
     }
 
     public void begin() {
+        timer = new Timer(DELAY, controlsPanel);
         timer.start();
-    }
-
-    public void startControls() {
-        controlsPanel.start();   // Start timer
     }
 
     public void createParticles(){
@@ -69,7 +65,6 @@ public class Simulation {
     }
 
     public void updateInteraction() {
-
         for (Rule rule : rules) {
             interactionRule(rule);
         }
@@ -93,11 +88,37 @@ public class Simulation {
             randomRules();
         }
 
-//        controlsPanel.totalRulesLabel.setText(String.valueOf(numRule));
+        controlsPanel.totalRulesLabel.setText(String.valueOf(numRule));
     }
 
     public ArrayList<Particle> getParticles() {
         return particles;
+    }
+
+    public void resetSimulation(){
+        timer.stop();
+        particles.clear();
+        red.clear();
+        green.clear();
+        blue.clear();
+        yellow.clear();
+        magenta.clear();
+        createParticles();
+        timer.start();
+        randomRules();
+    }
+
+    public void resetRandom(){
+        timer.stop();
+        particles.clear();
+        red.clear();
+        green.clear();
+        blue.clear();
+        yellow.clear();
+        magenta.clear();
+        createRandomParticles();
+        timer.start();
+        randomRules();
     }
 
     public void interactionRule(Rule rule) {
