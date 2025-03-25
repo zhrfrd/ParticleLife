@@ -3,7 +3,7 @@ ParticleLife is my revisitation in Java of [Particle Life Simulation](https://gi
 ## TODO
 - [ ] SimulationPanel and ControlsPanel both have the `setSimulation(simulation)` method. Refactor code in order to have only 1 method declaration somewhere. Maybe create a superclass for the panels. 
 - [ ] Assign the correct access modifier to class fields.
-- [ ] Create getter and setter methods rather than accessing class fields directly.
+- [X] Create getter and setter methods rather than accessing class fields directly.
 - [x] Delete unused ActionListener from ControlsPanel or SimulationPanel.
 - [ ] Improve JPanel layouts.
 - [ ] Create a proper "game loop" to run the simulation.

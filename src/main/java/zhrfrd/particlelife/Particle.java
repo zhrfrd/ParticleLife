@@ -1,22 +1,20 @@
 package zhrfrd.particlelife;
 
-public class Particle {
-    double x;
-    double y;
-    double vx;
-    double vy;
-    char color;
+import java.awt.*;
 
-    Particle(int x, int y, char color) {
+public class Particle {
+    private double x;
+    private double y;
+    private double vx;
+    private double vy;
+    final private Color COLOR;
+
+    Particle(int x, int y, Color color) {
         this.x = x;
         this.y = y;
-        this.color = color;
         this.vx = 0;
         this.vy = 0;
-    }
-
-    public Particle getParticle() {
-        return this;
+        COLOR = color;
     }
 
     public double getX() {
@@ -35,7 +33,23 @@ public class Particle {
         return vy;
     }
 
-    public char getColor() {
-        return color;
+    public Color getColor() {
+        return COLOR;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setVx(double vx) {
+        this.vx = vx;
+    }
+
+    public void setVy(double vy) {
+        this.vy = vy;
     }
 }

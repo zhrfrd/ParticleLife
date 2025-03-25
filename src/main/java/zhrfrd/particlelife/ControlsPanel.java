@@ -8,8 +8,8 @@ import java.awt.event.ActionListener;
 public class ControlsPanel extends JPanel implements ActionListener {
     Simulation simulation;
     SimulationPanel simulationPanel;
-    public JButton resetButton = new JButton();
-    public JButton randomResetButton = new JButton();
+    public JButton homogeneousResetButton = new JButton();
+    public JButton heterogeneousResetButton = new JButton();
     public JButton randomRulesButton = new JButton();
     public JLabel totalParticlesLabel = new JLabel();
     public JLabel totalRulesLabel = new JLabel();
@@ -27,18 +27,18 @@ public class ControlsPanel extends JPanel implements ActionListener {
 
     public void makeGUI(ActionListener actionListener) {
         // Reset button
-        resetButton.setText("Reset");
-        resetButton.addActionListener(actionListener);
-        resetButton.setPreferredSize(new Dimension(60,20));
-        resetButton.setVisible(true);
-        this.add(resetButton);
+        homogeneousResetButton.setText("Homogeneous Particles");
+        homogeneousResetButton.addActionListener(actionListener);
+        homogeneousResetButton.setPreferredSize(new Dimension(60,20));
+        homogeneousResetButton.setVisible(true);
+        this.add(homogeneousResetButton);
 
         // Random reset button
-        randomResetButton.setText("Random Reset");
-        randomResetButton.addActionListener(actionListener);
-        randomResetButton.setPreferredSize(new Dimension(60,20));
-        randomResetButton.setVisible(true);
-        this.add(randomResetButton);
+        heterogeneousResetButton.setText("Heterogeneous Particles");
+        heterogeneousResetButton.addActionListener(actionListener);
+        heterogeneousResetButton.setPreferredSize(new Dimension(60,20));
+        heterogeneousResetButton.setVisible(true);
+        this.add(heterogeneousResetButton);
 
         // Randomize rules
         randomRulesButton.setText("Random Rules");
@@ -88,10 +88,10 @@ public class ControlsPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        if (actionEvent.getSource() == resetButton) {
-            simulation.resetSimulation();
-        } else if (actionEvent.getSource() == randomResetButton) {
-            simulation.resetRandom();
+        if (actionEvent.getSource() == homogeneousResetButton) {
+            simulation.reset(Action.RESET_HOMOGENEOUS);
+        } else if (actionEvent.getSource() == heterogeneousResetButton) {
+            simulation.reset(Action.RESET_HETEROGENEOUS);
         } else if (actionEvent.getSource() == randomRulesButton) {
             simulation.randomRules();
         }

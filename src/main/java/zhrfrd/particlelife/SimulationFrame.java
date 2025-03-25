@@ -10,7 +10,7 @@ public class SimulationFrame extends JFrame {
     ControlsPanel controlsPanel;
     Simulation simulation;
 
-    public SimulationFrame() {
+    SimulationFrame() {
         setupFrame();
         initializeComponents();
         begin();

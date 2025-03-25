@@ -1,33 +1,32 @@
 package zhrfrd.particlelife;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Simulation {
     SimulationPanel simulationPanel;
-    ArrayList<Particle> yellow;
-    ArrayList<Particle> red;
-    ArrayList<Particle> green;
-    ArrayList<Particle> blue;
-    ArrayList<Particle> magenta;
+    private ArrayList<Particle> yellowParticles;
+    private ArrayList<Particle> redParticles;
+    private ArrayList<Particle> greenParticles;
+    private ArrayList<Particle> blueParticles;
+    private ArrayList<Particle> magentaParticles;
     int SCREEN_WIDTH = 600;
     int SCREEN_HEIGHT = 600;
     int DELAY = 60;
-    Random random = new Random();
+    Random random;
     int rulesLimit = 20;
-    ControlsPanel controlsPanel;// = new ControlsPanel(this);
-    Utils utils;// = new Utils(this);
-    Timer timer;// = new Timer(DELAY, this);   // Start timer which activates action listener on DELAY interval
+    ControlsPanel controlsPanel;
+    Timer timer;
     ArrayList<Particle> particles = new ArrayList<>();
     ArrayList<Rule> rules = new ArrayList<>(12);
 
-    public Simulation(SimulationPanel simulationPanel, ControlsPanel controlsPanel) {
+    Simulation(SimulationPanel simulationPanel, ControlsPanel controlsPanel) {
         this.simulationPanel = simulationPanel;
         this.controlsPanel = controlsPanel;
-        utils = new Utils(this.simulationPanel);
-//        timer = new Timer(DELAY, controlsPanel);
-        createRandomParticles();
+        random = new Random();
+        generateHeterogeneousNumberOfParticles();
         randomRules();
     }
 
@@ -36,32 +35,32 @@ public class Simulation {
         timer.start();
     }
 
-    public void createParticles(){
-        yellow = generateParticles(300, 'y');
-        red = generateParticles(300, 'r');
-        green = generateParticles(300, 'g');
-        blue = generateParticles(300, 'b');
-        magenta = generateParticles(300, 'm');
+    private void generateHomogeneousNumberOfParticles() {
+        yellowParticles = generateParticles(300, Color.yellow);
+        redParticles = generateParticles(300, Color.red);
+        greenParticles = generateParticles(300, Color.green);
+        blueParticles = generateParticles(300, Color.blue);
+        magentaParticles = generateParticles(300, Color.magenta);
     }
 
-    public ArrayList<Particle> generateParticles(int numberOfParticles, char color) {
+    private void generateHeterogeneousNumberOfParticles() {
+        yellowParticles = generateParticles(random.nextInt(500), Utils.randomColor(random));
+        redParticles = generateParticles(random.nextInt(500), Utils.randomColor(random));
+        greenParticles = generateParticles(random.nextInt(500), Utils.randomColor(random));
+        blueParticles = generateParticles(random.nextInt(500), Utils.randomColor(random));
+        magentaParticles = generateParticles(random.nextInt(500), Utils.randomColor(random));
+    }
+
+    public ArrayList<Particle> generateParticles(int numberOfParticles, Color color) {
         ArrayList<Particle> particlesGroup = new ArrayList<>();
 
         for (int i = 0; i < numberOfParticles; i ++) {
-            Particle particle = new Particle(utils.random(this), utils.random(this), color);
+            Particle particle = new Particle(random.nextInt(100) * 6, random.nextInt(100) * 6, color);
             particlesGroup.add(i, particle);
             particles.add(particlesGroup.get(i));
         }
 
         return particlesGroup;
-    }
-
-    public void createRandomParticles(){
-        yellow = generateParticles(random.nextInt(500), utils.randomColor(this));
-        red = generateParticles(random.nextInt(500), utils.randomColor(this));
-        green = generateParticles(random.nextInt(500), utils.randomColor(this));
-        blue = generateParticles(random.nextInt(500), utils.randomColor(this));
-        magenta = generateParticles(random.nextInt(500), utils.randomColor(this));
     }
 
     public void updateInteraction() {
@@ -72,15 +71,16 @@ public class Simulation {
         controlsPanel.totalRulesLabel.setText(String.valueOf(rules.size()));
     }
 
-    public void randomRules(){
+    // TODO: Refactor and avoid recursion in else statement
+    public void randomRules() {
         rules.clear();
-        int numRule = random.nextInt(rulesLimit);// rules limit
+        int numRule = random.nextInt(rulesLimit);   // Rules limit
         if (numRule > 5 && numRule < 20 && !(numRule % 2 == 0)) {
             for (int i = 0; i < numRule; i ++) {
                 Rule rule = new Rule();
-                rule.color1 = utils.randomGroupOfParticles(this);
-                rule.color2 = utils.randomGroupOfParticles(this);
-                rule.g = utils.randomDouble(this);
+                rule.color1 = Utils.randomGroupOfParticles(this, random);
+                rule.color2 = Utils.randomGroupOfParticles(this, random);
+                rule.g = Utils.randomDouble(this);
                 rules.add(i, rule);
 
             }
@@ -91,32 +91,21 @@ public class Simulation {
         controlsPanel.totalRulesLabel.setText(String.valueOf(numRule));
     }
 
-    public ArrayList<Particle> getParticles() {
-        return particles;
-    }
-
-    public void resetSimulation(){
+    public void reset(Action action) {
         timer.stop();
         particles.clear();
-        red.clear();
-        green.clear();
-        blue.clear();
-        yellow.clear();
-        magenta.clear();
-        createParticles();
-        timer.start();
-        randomRules();
-    }
+        redParticles.clear();
+        greenParticles.clear();
+        blueParticles.clear();
+        yellowParticles.clear();
+        magentaParticles.clear();
 
-    public void resetRandom(){
-        timer.stop();
-        particles.clear();
-        red.clear();
-        green.clear();
-        blue.clear();
-        yellow.clear();
-        magenta.clear();
-        createRandomParticles();
+        if (Action.RESET_HOMOGENEOUS.equals(action)) {
+            generateHomogeneousNumberOfParticles();
+        } else if (Action.RESET_HETEROGENEOUS.equals(action)) {
+            generateHeterogeneousNumberOfParticles();
+        }
+
         timer.start();
         randomRules();
     }
@@ -131,25 +120,52 @@ public class Simulation {
             double fy = 0;
 
             for (Particle particle2 : particles2) {
-                double dx = particle1.x - particle2.x;
-                double dy = particle1.y - particle2.y;
+                double dx = particle1.getX() - particle2.getX();
+                double dy = particle1.getY() - particle2.getY();
                 double d = Math.sqrt(dx * dx + dy * dy);
+
                 if (d > 0 && d < 80) {
                     double F = (g * 1) / d;
                     fx += F * dx;
                     fy += F * dy;
                 }
             }
-            particle1.vx = ((particle1.vx + fx) * 0.5);
-            particle1.vy = ((particle1.vy + fy) * 0.5);
-            particle1.x += particle1.vx;
-            particle1.y += particle1.vy;
-            if (particle1.x <= 0 || particle1.x >= SCREEN_WIDTH) {
-                particle1.vx *= -1;
+
+            particle1.setVx((particle1.getVx() + fx) * 0.5);
+            particle1.setVy((particle1.getVy() + fy) * 0.5);
+            particle1.setX(particle1.getX() + particle1.getVx());
+            particle1.setY(particle1.getY() + particle1.getVy());
+
+            if (particle1.getX() <= 0 || particle1.getX() >= SCREEN_WIDTH) {
+                particle1.setVx(particle1.getVx() * -1);
             }
-            if (particle1.y <= 0 || particle1.y >= SCREEN_HEIGHT) {
-                particle1.vy *= -1;
+            if (particle1.getY() <= 0 || particle1.getY() >= SCREEN_HEIGHT) {
+                particle1.setVy(particle1.getVy() * -1);
             }
         }
+    }
+
+    public ArrayList<Particle> getParticles() {
+        return particles;
+    }
+
+    public ArrayList<Particle> getGreenParticles() {
+        return greenParticles;
+    }
+
+    public ArrayList<Particle> getRedParticles() {
+        return redParticles;
+    }
+
+    public ArrayList<Particle> getBlueParticles() {
+        return blueParticles;
+    }
+
+    public ArrayList<Particle> getYellowParticles() {
+        return yellowParticles;
+    }
+
+    public ArrayList<Particle> getMagentaParticles() {
+        return magentaParticles;
     }
 }
