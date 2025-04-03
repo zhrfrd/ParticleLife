@@ -44,11 +44,11 @@ public class Simulation {
     }
 
     private void generateHeterogeneousNumberOfParticles() {
-        yellowParticles = generateParticles(random.nextInt(500), Utils.randomColor(random));
-        redParticles = generateParticles(random.nextInt(500), Utils.randomColor(random));
-        greenParticles = generateParticles(random.nextInt(500), Utils.randomColor(random));
-        blueParticles = generateParticles(random.nextInt(500), Utils.randomColor(random));
-        magentaParticles = generateParticles(random.nextInt(500), Utils.randomColor(random));
+        yellowParticles = generateParticles(random.nextInt(500), Color.yellow);
+        redParticles = generateParticles(random.nextInt(500), Color.red);
+        greenParticles = generateParticles(random.nextInt(500), Color.green);
+        blueParticles = generateParticles(random.nextInt(500), Color.blue);
+        magentaParticles = generateParticles(random.nextInt(500), Color.magenta);
     }
 
     public ArrayList<Particle> generateParticles(int numberOfParticles, Color color) {
@@ -80,7 +80,7 @@ public class Simulation {
                 Rule rule = new Rule();
                 rule.color1 = Utils.randomGroupOfParticles(this, random);
                 rule.color2 = Utils.randomGroupOfParticles(this, random);
-                rule.g = Utils.randomDouble(this);
+                rule.g = Utils.randomDouble();
                 rules.add(i, rule);
 
             }

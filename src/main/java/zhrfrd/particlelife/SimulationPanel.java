@@ -17,6 +17,7 @@ public class SimulationPanel extends JPanel {
     SimulationPanel() {
         setPreferredSize(new Dimension(PANEL_SIZE, PANEL_SIZE));
         setVisible(true);
+        setBackground(Color.darkGray);
 //        utils = new Utils(this);
     }
 

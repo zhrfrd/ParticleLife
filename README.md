@@ -8,3 +8,5 @@ ParticleLife is my revisitation in Java of [Particle Life Simulation](https://gi
 - [ ] Improve JPanel layouts.
 - [ ] Create a proper "game loop" to run the simulation.
 - [ ] Improve input handling.
+- [ ] Improve particles movement precision.
+- [ ] Fix particles exiting the panel border.
