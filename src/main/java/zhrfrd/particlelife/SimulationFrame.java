@@ -6,6 +6,7 @@ import java.awt.*;
 public class SimulationFrame extends JFrame {
     private static final int WIDTH = 810;
     private static final int HEIGHT = 610;
+    private static final String TITLE = "ParticleLife";
     SimulationPanel simulationPanel;
     ControlsPanel controlsPanel;
     Simulation simulation;
@@ -17,6 +18,7 @@ public class SimulationFrame extends JFrame {
     }
 
     private void setupFrame() {
+        setTitle(TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setResizable(false);
@@ -25,16 +27,16 @@ public class SimulationFrame extends JFrame {
 
     private void initializeComponents() {
         simulationPanel = new SimulationPanel();
-        this.add(simulationPanel, BorderLayout.WEST);
+        add(simulationPanel, BorderLayout.WEST);
 
         controlsPanel = new ControlsPanel();
-        this.add(controlsPanel, BorderLayout.EAST);
+        add(controlsPanel, BorderLayout.EAST);
 
-        this.pack();
-        this.setVisible(true);
-        this.setLocationRelativeTo(null);
+        pack();
+        setVisible(true);
+        setLocationRelativeTo(null);
 
-        simulation = new Simulation(simulationPanel, controlsPanel);
+        simulation = new Simulation(this, simulationPanel, controlsPanel);
         simulationPanel.setSimulation(simulation);
         simulationPanel.setControlsPanel(controlsPanel);   // TODO: Move, wrong place!
         simulationPanel.setParticles();

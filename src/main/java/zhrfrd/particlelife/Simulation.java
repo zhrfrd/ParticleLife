@@ -5,24 +5,27 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Simulation {
-    SimulationPanel simulationPanel;
+public class Simulation implements Runnable {
     private ArrayList<Particle> yellowParticles;
     private ArrayList<Particle> redParticles;
     private ArrayList<Particle> greenParticles;
     private ArrayList<Particle> blueParticles;
     private ArrayList<Particle> magentaParticles;
+    private boolean running = false;
     int SCREEN_WIDTH = 600;
     int SCREEN_HEIGHT = 600;
     int DELAY = 60;
     Random random;
     int rulesLimit = 20;
+    SimulationFrame simulationFrame;
+    SimulationPanel simulationPanel;
     ControlsPanel controlsPanel;
     Timer timer;
     ArrayList<Particle> particles = new ArrayList<>();
     ArrayList<Rule> rules = new ArrayList<>(12);
 
-    Simulation(SimulationPanel simulationPanel, ControlsPanel controlsPanel) {
+    Simulation(SimulationFrame simulationFrame, SimulationPanel simulationPanel, ControlsPanel controlsPanel) {
+        this.simulationFrame = simulationFrame;
         this.simulationPanel = simulationPanel;
         this.controlsPanel = controlsPanel;
         random = new Random();
@@ -31,8 +34,9 @@ public class Simulation {
     }
 
     public void begin() {
-        timer = new Timer(DELAY, controlsPanel);
-        timer.start();
+        running = true;
+        Thread thread = new Thread(this, "Display");
+        thread.start(); // go to the run () method
     }
 
     private void generateHomogeneousNumberOfParticles() {
@@ -167,5 +171,42 @@ public class Simulation {
 
     public ArrayList<Particle> getMagentaParticles() {
         return magentaParticles;
+    }
+
+    public void update () {
+        // TODO: Handle the simulation logic
+    }
+
+    public void render() {
+        // TODO: Handle the graphic rendering
+    }
+
+    @Override
+    public void run() {
+        long lastTime = System.nanoTime();
+        long timer = System.currentTimeMillis();
+        final double ns = 1000000000.0 / 60.0;
+        double delta = 0;
+        int frames = 0; // How many frames per second
+        int updates = 0; // How many updates per second (it should be always 60)
+        while (running) {
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            lastTime = now;
+            while (delta >= 1) {
+                simulationPanel.update();
+                update(); // Update 60 times per second
+                updates++;
+                delta--;
+            }
+            render();
+            frames++;
+            if (System.currentTimeMillis() - timer > 1000) { // Each second
+                timer += 1000; // Increase by 10000 each time in order to keep the upper condition
+                simulationFrame.setTitle("ParticleLife  |  " + updates + "ups " + frames + "fps");
+                updates = 0;
+                frames = 0;
+            }
+        }
     }
 }

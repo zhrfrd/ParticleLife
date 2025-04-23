@@ -96,6 +96,6 @@ public class ControlsPanel extends JPanel implements ActionListener {
             simulation.randomRules();
         }
 
-        simulationPanel.update();
+//        simulationPanel.update();
     }
 }

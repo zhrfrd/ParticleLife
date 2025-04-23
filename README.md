@@ -10,3 +10,4 @@ ParticleLife is my revisitation in Java of [Particle Life Simulation](https://gi
 - [ ] Improve input handling.
 - [ ] Improve particles movement precision.
 - [ ] Fix particles exiting the panel border.
+- [ ] Find better way to update JFrame title without having to hard-code the title string in the game-loop.
