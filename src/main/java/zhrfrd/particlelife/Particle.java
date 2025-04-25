@@ -5,15 +5,15 @@ import java.awt.*;
 public class Particle {
     private double x;
     private double y;
-    private double vx;
-    private double vy;
+    private double velocityX;
+    private double velocityY;
     final private Color COLOR;
 
     Particle(int x, int y, Color color) {
         this.x = x;
         this.y = y;
-        this.vx = 0;
-        this.vy = 0;
+        this.velocityX = 0;
+        this.velocityY = 0;
         COLOR = color;
     }
 
@@ -25,12 +25,12 @@ public class Particle {
         return y;
     }
 
-    public double getVx() {
-        return vx;
+    public double getVelocityX() {
+        return velocityX;
     }
 
-    public double getVy() {
-        return vy;
+    public double getVelocityY() {
+        return velocityY;
     }
 
     public Color getColor() {
@@ -45,11 +45,11 @@ public class Particle {
         this.y = y;
     }
 
-    public void setVx(double vx) {
-        this.vx = vx;
+    public void setVelocityX(double vx) {
+        this.velocityX = vx;
     }
 
-    public void setVy(double vy) {
-        this.vy = vy;
+    public void setVelocityY(double vy) {
+        this.velocityY = vy;
     }
 }

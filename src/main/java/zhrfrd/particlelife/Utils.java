@@ -1,6 +1,5 @@
 package zhrfrd.particlelife;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,7 +8,7 @@ public class Utils {
         double d;
         double upper = 0.3;
         double lower = - 0.3;
-        d = Math.random() * (upper-lower) + lower;
+        d = Math.random() * (upper - lower) + lower;
 
         return d;
     }
@@ -21,7 +20,6 @@ public class Utils {
         if (value == 1) return simulation.getRedParticles();
         if (value == 2) return simulation.getBlueParticles();
         if (value == 3) return simulation.getYellowParticles();
-
         return simulation.getMagentaParticles();
     }
 }

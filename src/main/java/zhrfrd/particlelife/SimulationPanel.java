@@ -41,7 +41,7 @@ public class SimulationPanel extends JPanel {
     public void draw(Graphics graphics) {
         for (Particle particle : particles) {
             graphics.setColor(particle.getColor());
-            graphics.fillOval(Math.abs((int) particle.getX()), Math.abs((int) particle.getY()), 5, 5);   // Cast x/y from double to int to draw atoms. Definitely not ideal casting double to int
+            graphics.fillOval((int) particle.getX(), (int) particle.getY(), 5, 5);   // Cast x/y from double to int to draw atoms. Definitely not ideal casting double to int
         }
     }
 
